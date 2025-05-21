@@ -10,8 +10,25 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@tailwindcss/vite": "^4.1.4",
+    "@vueuse/core": "^13.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "d3": "^7.9.0",
+    "fast-csv": "^5.0.2",
+    "lucide-vue-next": "^0.503.0",
     "nuxt": "^3.11.2",
+    "p5": "^1.11.5",
+    "reka-ui": "^2.2.0",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^3.2.0",
+    "tailwindcss": "^4.1.4",
+    "tw-animate-css": "^1.2.8",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@nuxt/icon": "^1.12.0"
   }
 }
