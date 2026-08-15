@@ -18,31 +18,11 @@
             <img src="/img/gallery/catFace.jpg" alt="cat" class="w-full h-auto rounded-lg shadow-md" />
 
             <div class="mt-4">
-                <Select>
-    <SelectTrigger class="w-[240px] bg-white">
-      <SelectValue placeholder="Select a fruit" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectGroup>
-        <SelectLabel>Fruits</SelectLabel>
-        <SelectItem value="apple">
-          Apple
-        </SelectItem>
-        <SelectItem value="banana">
-          Banana
-        </SelectItem>
-        <SelectItem value="blueberry">
-          Blueberry
-        </SelectItem>
-        <SelectItem value="grapes">
-          Grapes
-        </SelectItem>
-        <SelectItem value="pineapple">
-          Pineapple
-        </SelectItem>
-      </SelectGroup>
-    </SelectContent>
-  </Select>
+                <USelect
+                    :items="fruitItems"
+                    placeholder="Select a fruit"
+                    class="w-60 bg-white"
+                />
             </div>
         </div>
         
@@ -108,18 +88,14 @@
 
 <script setup>
 
-    // npx shadcn-vue@latest add button
-
-    import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-    } from '@/components/ui/select'
-
+    const fruitItems = [
+        { type: 'label', label: 'Fruits' },
+        { label: 'Apple', value: 'apple' },
+        { label: 'Banana', value: 'banana' },
+        { label: 'Blueberry', value: 'blueberry' },
+        { label: 'Grapes', value: 'grapes' },
+        { label: 'Pineapple', value: 'pineapple' },
+    ]
 
     const ascii_text_holder = ref(null);
     const asciiImageString = ref('');

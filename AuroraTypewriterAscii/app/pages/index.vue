@@ -10,7 +10,7 @@
   </div>
 
   <div class="container foglio ">
-    
+
     <p class="text-3xl mb-6">This is a simple page to demonstrate the use of Vue.js with TypeScript.</p>
     <p class="font-serif font-light">Typewriter effect will be implemented here.</p>
 
@@ -30,6 +30,6 @@
   </div>
 
 
-  
+
 
 </template>

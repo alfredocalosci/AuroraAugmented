@@ -79,7 +79,6 @@
 
 <script setup>
 
-    // npx shadcn-vue@latest add button
 
     const ascii_text_holder = ref(null);
     // const asciiImageString = ref('');
