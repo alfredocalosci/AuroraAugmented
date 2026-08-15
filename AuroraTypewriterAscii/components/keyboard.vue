@@ -202,7 +202,7 @@
         emitKData(keys_x_loc.value);
         // console.log(keys_x_loc.value.map(k => k.kChar));
         // console.log(keysInUse.value);
-        console.log(keys_x_loc.value)
+        // console.log(keys_x_loc.value)
     });
     
 </script>

@@ -60,13 +60,10 @@
 
         <div>
             <Keyboard
-                is-compact="true"
+                :is-compact= true
                 density-chars="Wwli:,. "
                 @get-k-data="(keyData) => {
-                    // console.log('keyData from emit:');
-                    // console.log(keyData);
                     key_x.value = keyData;
-                    // console.log(key_x.value);
                 }"   
             ></Keyboard>
         </div>
