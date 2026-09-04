@@ -6,10 +6,12 @@
 
 <script setup>
     import * as Tone from "tone";
-    
+
+    // dev flag: flip to false to mute Tone.js while working on layout/timing
+    const SOUND_ENABLED = true;
+
     const gHeroHolder = ref(null);
     // nuxt get width and height of ref container
-    import { useElementSize } from '@vueuse/core'
     const { width, height } = useElementSize(gHeroHolder)
 
     // props list
@@ -57,10 +59,11 @@
         console.log('playMode is .....');
         console.log(newVal);
 
-        if(newVal){
-            // reset particles
-            // playTone('C4'); // play a tone
-            // console.log('playing tone');
+        if(newVal && SOUND_ENABLED){
+            // unlock/start the Tone.js AudioContext while we're still inside
+            // the click gesture that flipped playMode, otherwise the browser
+            // blocks audio started later from the p5 animation loop
+            Tone.start();
         }
         
     })
@@ -81,10 +84,10 @@
     // function that play a tone // as "C4"
     
     const playTone = async (note) => {
-        const synth = new Tone.Synth().toDestination();
-        const now = Tone.now();
-        synth.triggerAttackRelease(note, '8n');
+        if (!SOUND_ENABLED) return;
         await Tone.start();
+        const synth = new Tone.Synth().toDestination();
+        synth.triggerAttackRelease(note, '8n');
     }
 
     /*
@@ -167,7 +170,7 @@
                         if(myTone < 0){ myTone = 0; }
                         let randomTone = pentatonicScale[myTone];
 
-                        // playTone(randomTone); // play a tone
+                        playTone(randomTone); // play a tone
                         emit('updateCount');
                     }
                     // remove particle

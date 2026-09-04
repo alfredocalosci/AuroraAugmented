@@ -17,7 +17,8 @@
     "@nuxt/content": "^3.15.2",
     "@nuxt/ui": "^4.10.0",
     "@nuxtjs/i18n": "^10.6.0",
-    "@vueuse/core": "^13.1.0",
+    "@vueuse/core": "^14.4.0",
+    "@vueuse/nuxt": "^14.4.0",
     "better-sqlite3": "^12.11.1",
     "d3": "^7.9.0",
     "fast-csv": "^5.0.2",
@@ -29,7 +30,10 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@iconify-json/gridicons": "^1.2.5",
     "@iconify-json/lucide": "^1.2.123",
-    "@iconify-json/mdi": "^1.2.3"
+    "@napi-rs/canvas": "^1.0.7",
+    "fontkit": "^2.0.4",
+    "playwright": "^1.62.1"
   }
 }

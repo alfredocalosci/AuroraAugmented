@@ -10,9 +10,9 @@
         <div >
             <!-- icon holder-->
             <div class="mb-4 flex gap-1">
-                <Icon name="mdi:image-outline" style="color: black"  size="2rem"/>
-                <Icon name="mdi:camera-outline" style="color: lightgray"  size="2rem"/>
-                <Icon name="mdi:cloud-upload-outline" style="color: lightgray"  size="2rem"/>
+                <Icon name="i-lucide-image" style="color: black"  size="2rem"/>
+                <Icon name="i-lucide-camera" style="color: lightgray"  size="2rem"/>
+                <Icon name="i-lucide-cloud-upload" style="color: lightgray"  size="2rem"/>
             </div>
             
             <img src="/img/gallery/catFace.jpg" alt="cat" class="w-full h-auto rounded-lg shadow-md" />
@@ -30,7 +30,7 @@
             <div class="mb-4 flex gap-1">
                 
                 <Icon 
-                    name="mdi:content-copy"
+                    name="i-lucide-copy"
                     style="color: black" 
                     size="2rem"
                     @click="copyToClipboard"
@@ -41,7 +41,7 @@
             </div>
             
             <!-- text area -->
-            <textarea ref="ascii_text_holder" id="ascii_text_holder" class="w-full  p-2 border border-white rounded-lg shadow-md bg-white text-xs leading-none tracking-[0.25rem] min-h-[500px]" placeholder="Type your text here..."></textarea>
+            <textarea ref="ascii_text_holder" id="ascii_text_holder" class="w-full  p-2 border border-white rounded-lg shadow-md bg-white text-xs leading-none tracking-[0.25rem] min-h-125" placeholder="Type your text here..."></textarea>
         </div>
     </div>
 

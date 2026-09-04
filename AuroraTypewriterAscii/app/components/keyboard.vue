@@ -5,6 +5,7 @@
             <div 
                 class="keyboard-row flex justify-center font-mono relative"
                 v-for="(row, rowIndex) in (isUpper ? keys_upper : keys_lower)" :key="rowIndex">
+
                 <div 
                     class="key pt-2 pb-1 m-0.5 text-center font-normal cursor-pointer border rounded-full shadow-xl  "
                     v-for="(key, keyIndex) in row" 
@@ -35,12 +36,8 @@
                 <!-- extra space ? -->
                  <div 
                     v-for="(i, index) in 4-rowIndex"
-                    class="w-[0.5rem]"
+                    class="w-2"
                 ></div>
-
-
-                
-
 
             </div>
             <!-- spacebar row -->
@@ -48,7 +45,7 @@
                 class="keyboard-row flex justify-center font-mono"
              >
              <div
-                class="key px-4  mt-3 text-center text-xl font-normal cursor-pointer border rounded-full shadow-md bg-stone-600 w-[28rem]"
+                class="key px-4  mt-3 text-center text-xl font-normal cursor-pointer border rounded-full shadow-md bg-stone-600 w-md"
                 data-key=" " 
                 key="k_ "
                 :ref="el => (keysR['k_ '] = el)"
@@ -66,7 +63,6 @@
     const kbHolder = ref(null);
     import { useElementSize } from '@vueuse/core'
     const { width, height } = useElementSize(kbHolder)
-
 
     const props = defineProps({
         keys_lower: {

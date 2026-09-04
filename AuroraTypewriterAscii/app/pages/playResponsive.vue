@@ -72,14 +72,9 @@
 
   </div>
 
-
-  
-
 </template>
 
 <script setup>
-
-
     const ascii_text_holder = ref(null);
     // const asciiImageString = ref('');
 

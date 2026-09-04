@@ -1,9 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "@nuxt/content", "@nuxtjs/i18n"],
+  modules: ["@nuxt/ui", "@nuxt/content", "@nuxtjs/i18n", "@vueuse/nuxt"],
   compatibilityDate: "2026-08-15",
+  icon: {
+    clientBundle: {
+      scan: true,
+    },
+    customCollections: [{
+      prefix: 'custom',
+      dir: './app/assets/icons'
+    }]
+  },
   css: ['~/assets/css/main.css'],
+  fonts: {
+    families: [
+     
+      { name: 'Lekton', provider: 'google', weights: [400, 700] },
+      { name: 'League Gothic', provider: 'google', weights: [400] },
+      { name: 'Shadows Into Light Two', provider: 'google', weights: [400] }
+    ]
+  },
   i18n: {
     defaultLocale: 'en',
     locales: [
