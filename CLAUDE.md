@@ -8,7 +8,7 @@ This repo root (`AuroraAugmented`) currently contains a single active app, `Auro
 
 ## Node version
 
-Requires **Node ^24.11.0** (pinned in `package.json`'s `engines` field — this is Nuxt 4.5.2's real floor, not a round-number choice). There is deliberately no `.nvmrc` (it previously conflicted with Netlify's own Node version resolution on other projects). If using `nvm` locally, run `nvm use 24` before any `npm`/`nuxt` command — note that this only affects the current shell, so in a non-interactive tool session each command needs `nvm use 24 && ...` prefixed rather than relying on it persisting.
+Requires **Node ^26.0.0** (pinned in `package.json`'s `engines` field; Nuxt 4.5.2 itself accepts `^22.19.0 || ^24.11.0 || >=26.0.0`, and this project standardizes on 26 to match the user's other projects). There is deliberately no `.nvmrc` (it previously conflicted with Netlify's own Node version resolution on other projects). If using `nvm` locally, run `nvm use 26` before any `npm`/`nuxt` command — note that this only affects the current shell, so in a non-interactive tool session each command needs `nvm use 26 && ...` prefixed rather than relying on it persisting. `better-sqlite3` is a native module compiled per Node ABI: after switching Node major versions, run `npm rebuild better-sqlite3`.
 
 ## Commands
 
