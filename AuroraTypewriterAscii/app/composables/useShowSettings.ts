@@ -1,10 +1,10 @@
 export type SettingsPanel = 'image' | 'ascii' | 'player' | 'keyboard'
 
 const DEFAULT_SHOW_SETTINGS: Record<SettingsPanel, boolean> = {
-  image: true,
+  image: false,
   ascii: false,
   player: false,
-  keyboard: true,
+  keyboard: false,
 }
 
 // site-wide settings-accordion open/closed state — shared via useState so playerLayout.vue's

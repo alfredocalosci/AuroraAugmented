@@ -28,6 +28,18 @@ export function charCellAspectRatio(pitch: CharPitch, spacing: LineSpacing): num
 }
 
 /**
+ * How much taller a line is at this spacing vs. single spacing: 1x at
+ * single, up to 2x at double (matching LINE_SPACING_LPI's 6/4/3 lines-per-
+ * inch, where double is exactly half the LPI of single). Line spacing only
+ * changes the gap between lines, not glyph size - keep this separate from
+ * charCellAspectRatio (which pitch alone should drive) rather than folding
+ * it into a single width:height ratio.
+ */
+export function lineSpacingMultiplier(spacing: LineSpacing): number {
+  return LINE_SPACING_LPI.single / LINE_SPACING_LPI[spacing]
+}
+
+/**
  * Derives the number of output lines so the printed text block
  * (charsPerLine * charWidthInches wide, numLines * lineHeightInches tall)
  * preserves the source image's aspect ratio.

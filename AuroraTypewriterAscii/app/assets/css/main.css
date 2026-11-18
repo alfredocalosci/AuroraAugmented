@@ -5,7 +5,7 @@
 @theme {
     --font-mono: 'Lekton', Courier, monospace;
     --font-sans: 'Lato', sans-serif;
-    --font-display: 'League Gothic', sans-serif;
+    --font-display: 'Orbitron', sans-serif;
     --font-hand: 'Shadows Into Light Two', sans-serif;
 
     /* custom colors */
@@ -18,6 +18,33 @@
     --color-verde-tw: #1a6347; /* example value */
     --color-blu-tw: #1A3163; /* #1A3163 */
     --color-revista-tw:#034B85;
+
+    /* olivetti palette (wireframeNeo.vue schema hex values) */
+    /* flat colors */
+    --color-olivetti-yellow: #DACC61;
+    --color-olivetti-red: #D04028;
+    --color-olivetti-orange: #F26522;
+    --color-olivetti-blue: #3E76C0;
+    --color-olivetti-green: #4E793C;
+    --color-olivetti-sage: #7DBBA2;
+    --color-olivetti-slate: #899EB9;
+    --color-olivetti-slate: #899EB9;
+    --color-olivetti-slate-dark: #6B7A99;   
+    --color-olivetti-black: #0A0A0A;
+
+    /* gradient colors */
+    --color-olivetti-shade-10: #E7E6E1; /* pearl */
+    --color-olivetti-shade-20: #C6C4B8; /* taupe */
+    --color-olivetti-shade-30: #A4A18E; /* linen */
+    --color-olivetti-shade-40: #555244; /* umber */
+    --color-olivetti-shade-50: #2B2922;
+
+    --color-olivetti-shade-10-warm: #ECE4D8; /* black */
+
+    --color-olivetti-pearl: #E3E7E8;
+    --color-olivetti-umber: #555244;
+    --color-olivetti-linen: #E7E6E1;
+    --color-olivetti-taupe: #C6C4B8;
 }
 
 /* shadow-xl's own blur/spread/opacity, offset horizontally instead of vertically

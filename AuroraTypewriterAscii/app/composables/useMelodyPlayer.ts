@@ -3,12 +3,15 @@ import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 import * as Tone from 'tone'
 import type { MelodyEvent, MelodyTimeline } from '~/utils/melody/types'
 
-export type MelodyParticleKind = 'note' | 'shift' | 'carriageReturn'
+export type MelodyParticleKind = 'note' | 'shift' | 'carriageReturn' | 'space'
 
 export interface MelodyParticle {
   id: number
   x: number
   kind: MelodyParticleKind
+  /** the character this particle represents - the typed char for 'note'/
+   * 'space', the shiftToggle glyph for 'shift', unset for 'carriageReturn' */
+  char?: string
   /** performance.now() ms timestamps - wall-clock, deliberately not tied to
    * Tone.Transport time, so an already-spawned particle keeps falling even
    * after the transport is stopped on pause */
@@ -58,14 +61,25 @@ export function useMelodyPlayer(
 
   let noteSynth: Tone.PolySynth<Tone.Synth> | null = null
   let crSynth: Tone.MembraneSynth | null = null
+  // dedicated low bass/percussion voice for the spacebar - kept separate from
+  // crSynth (carriage return) even though both are MembraneSynths, since the
+  // two need to stay distinguishable from each other and are tuned/pitched
+  // independently
+  let spaceSynth: Tone.MembraneSynth | null = null
   let nextParticleId = 0
   let rafHandle: number | null = null
 
   const ensureSynths = async () => {
-    if (noteSynth && crSynth) return
+    if (noteSynth && crSynth && spaceSynth) return
     await Tone.start()
     noteSynth = new Tone.PolySynth(Tone.Synth).toDestination()
     crSynth = new Tone.MembraneSynth().toDestination()
+    spaceSynth = new Tone.MembraneSynth({
+      pitchDecay: 0.05,
+      octaves: 6,
+      oscillator: { type: 'sine' },
+      envelope: { attack: 0.001, decay: 0.4, sustain: 0.01, release: 1.2 },
+    }).toDestination()
   }
 
   const ensureAnimationLoop = () => {
@@ -79,9 +93,9 @@ export function useMelodyPlayer(
     rafHandle = requestAnimationFrame(tick)
   }
 
-  const spawnParticle = (x: number, kind: MelodyParticleKind, fallDurationMs: number) => {
+  const spawnParticle = (x: number, kind: MelodyParticleKind, fallDurationMs: number, char?: string) => {
     const now = performance.now()
-    particles.value.push({ id: nextParticleId++, x, kind, spawnAt: now, landAt: now + fallDurationMs })
+    particles.value.push({ id: nextParticleId++, x, kind, char, spawnAt: now, landAt: now + fallDurationMs })
     ensureAnimationLoop()
   }
 
@@ -105,14 +119,18 @@ export function useMelodyPlayer(
     if (event.type === 'note' && event.x !== undefined) {
       transport.scheduleOnce((time) => {
         Tone.getDraw().schedule(() => {
-          spawnParticle(event.x!, 'note', fallDurationMs)
-          if (event.shiftX !== undefined) spawnParticle(event.shiftX, 'shift', fallDurationMs)
+          spawnParticle(event.x!, event.isSpace ? 'space' : 'note', fallDurationMs, event.char)
+          if (event.shiftX !== undefined) spawnParticle(event.shiftX, 'shift', fallDurationMs, '⬆')
         }, time)
       }, relativeTime)
 
       transport.scheduleOnce((time) => {
         Tone.getDraw().schedule(() => {
-          noteSynth?.triggerAttackRelease(event.note!, '8n')
+          if (event.isSpace) {
+            spaceSynth?.triggerAttackRelease('C1', '8n')
+          } else {
+            noteSynth?.triggerAttackRelease(event.note!, '8n')
+          }
           if (event.shiftNote) noteSynth?.triggerAttackRelease(event.shiftNote, '8n')
           options.onNote?.(event.rowIndex, event.lineIndex + 1)
           options.onSound?.({ type: 'note', char: event.char!, needsShift: Boolean(event.shiftNote) })

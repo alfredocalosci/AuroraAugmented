@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     families: [
      
       { name: 'Lekton', provider: 'google', weights: [400, 700] },
-      { name: 'League Gothic', provider: 'google', weights: [400] },
+      { name: 'Orbitron', provider: 'local', weights: [400, 900] },
       { name: 'Shadows Into Light Two', provider: 'google', weights: [400] }
     ]
   },

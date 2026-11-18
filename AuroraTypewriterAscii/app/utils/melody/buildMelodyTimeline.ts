@@ -56,9 +56,14 @@ export function buildMelodyTimeline(opts: BuildMelodyOptions): MelodyTimeline {
   }
 
   // ascending by x, wrapping into the pentatonic scale - same approach the
-  // legacy guitarHero.vue used for its keysByX-indexed pitch lookup
+  // legacy guitarHero.vue used for its keysByX-indexed pitch lookup. The
+  // spacebar gets its own dedicated bass/percussion sound (see
+  // useMelodyPlayer's spaceSynth) instead of a pentatonic note, so it's
+  // excluded from this indexing - otherwise its (typically wide) x position
+  // would shift every other key's assigned note for no audible reason.
   const xSortedKeys = [...keyPositions].sort((a, b) => a.x - b.x)
-  const noteForKey = (key: KeyPosition) => pentatonicScale[xSortedKeys.indexOf(key) % pentatonicScale.length]!
+  const pitchKeys = xSortedKeys.filter((k) => k.type !== 'space')
+  const noteForKey = (key: KeyPosition) => pentatonicScale[pitchKeys.indexOf(key) % pentatonicScale.length]!
   const centerX = (key: KeyPosition) => key.x + key.width / 2
   const keyForChar = (char: string) => xSortedKeys.find((k) => k.key === char && k.type !== 'shiftToggle')
   const shiftKey = xSortedKeys.find((k) => k.type === 'shiftToggle')
@@ -105,14 +110,15 @@ export function buildMelodyTimeline(opts: BuildMelodyOptions): MelodyTimeline {
         }
         const chunkSize = Math.min(remaining, 1 + Math.floor(rng() * maxRunBeats))
         const needsShift = key.isUpper && Boolean(shiftKey)
+        const isSpace = key.type === 'space'
         for (let g = 0; g < chunkSize; g++) {
           pushEvent({
             type: 'note',
             rowIndex,
             lineIndex,
             char,
-            note: noteForKey(key),
             x: centerX(key),
+            ...(isSpace ? { isSpace: true } : { note: noteForKey(key) }),
             ...(needsShift ? { shiftNote: noteForKey(shiftKey!), shiftX: centerX(shiftKey!) } : {}),
           })
           lineIndex++

@@ -17,10 +17,14 @@ export interface MelodyEvent {
   lineIndex: number
   /** typed character (type === 'note') */
   char?: string
-  /** pentatonic note name, e.g. 'C4' (type === 'note') */
+  /** pentatonic note name, e.g. 'C4' (type === 'note', unset when isSpace) */
   note?: string
   /** key center-x in px, from keyPositions (type === 'note') */
   x?: number
+  /** true when this note event's key is the spacebar - it gets a dedicated
+   *  bass/percussion hit (see useMelodyPlayer's spaceSynth) instead of a
+   *  pentatonic note, and a rect instead of a dot in guitarHeroNeo.vue */
+  isSpace?: boolean
   /** companion note for the shiftToggle key, present when char requires shift */
   shiftNote?: string
   /** companion shiftToggle key center-x, present when char requires shift */

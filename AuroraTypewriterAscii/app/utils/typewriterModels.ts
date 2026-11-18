@@ -28,16 +28,46 @@ export const TYPEWRITER_MODELS: TypewriterModel[] = [
   { manufacturer: 'Groma', model: 'Kolibri', keys: 42, pitch: 'pica' },
 ]
 
+// Row distribution (number/upper/home/lower, top to bottom) for each real
+// keys-per-machine count a typewriter model can report — shared by
+// TypewriterSettingsNeo (the picker) and KeyboardNeo (the renderer) so the two
+// never drift apart.
+export const KEYS_NUMBER_ITEMS: { label: string; value: number; rows: number[] }[] = [
+  { label: '42', value: 42, rows: [10, 11, 11, 10] },
+  { label: '43', value: 43, rows: [10, 11, 11, 11] },
+  { label: '44', value: 44, rows: [11, 11, 11, 11] },
+  { label: '45', value: 45, rows: [12, 11, 11, 11] },
+  { label: '46', value: 46, rows: [12, 11, 12, 11] },
+]
+
+const DEFAULT_KEYS_ROW_CONFIG = KEYS_NUMBER_ITEMS[2]!.rows // 44 keys
+
+export function getKeysRowConfig(keysNumber: number): number[] {
+  return KEYS_NUMBER_ITEMS.find((item) => item.value === keysNumber)?.rows ?? DEFAULT_KEYS_ROW_CONFIG
+}
+
+// Stand-in model for "the two dials were set by hand, not picked from the list
+// above" — surfaced as its own item (manufacturer 'none', model 'custom') at
+// the bottom of typewriterModelSelectItems() rather than as a group, and the
+// UI switches to it whenever charPitch/keysNumber are edited directly.
+export const CUSTOM_TYPEWRITER_MODEL: TypewriterModel = { manufacturer: 'none', model: 'custom', keys: 0, pitch: 'pica' }
+
 export function typewriterModelId(m: TypewriterModel): string {
   return `${m.manufacturer}::${m.model}`
 }
 
+export function isCustomTypewriterModel(m: TypewriterModel | null | undefined): boolean {
+  return !!m && typewriterModelId(m) === typewriterModelId(CUSTOM_TYPEWRITER_MODEL)
+}
+
 export function findTypewriterModelById(id: string | null | undefined): TypewriterModel | undefined {
+  if (id === typewriterModelId(CUSTOM_TYPEWRITER_MODEL)) return CUSTOM_TYPEWRITER_MODEL
   return TYPEWRITER_MODELS.find((m) => typewriterModelId(m) === id)
 }
 
 // One sub-array per manufacturer (rendered as a USelect group), both
-// manufacturers and models within each group sorted alphabetically.
+// manufacturers and models within each group sorted alphabetically, plus a
+// final ungrouped "custom" entry.
 export function typewriterModelSelectItems() {
   const byManufacturer = new Map<string, TypewriterModel[]>()
   for (const m of TYPEWRITER_MODELS) {
@@ -45,11 +75,16 @@ export function typewriterModelSelectItems() {
     byManufacturer.get(m.manufacturer)!.push(m)
   }
 
-  return [...byManufacturer.keys()].sort((a, b) => a.localeCompare(b)).map((manufacturer) => [
+  const manufacturerGroups = [...byManufacturer.keys()].sort((a, b) => a.localeCompare(b)).map((manufacturer) => [
     { type: 'label' as const, label: manufacturer },
     ...byManufacturer.get(manufacturer)!
       .slice()
       .sort((a, b) => a.model.localeCompare(b.model))
       .map((m) => ({ label: m.model, value: typewriterModelId(m) })),
   ])
+
+  return [
+    ...manufacturerGroups,
+    [{ label: CUSTOM_TYPEWRITER_MODEL.model, value: typewriterModelId(CUSTOM_TYPEWRITER_MODEL) }],
+  ]
 }
